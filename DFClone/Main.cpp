@@ -8,6 +8,7 @@
 
 bool initSDL()
 {
+
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -27,7 +28,7 @@ int main(int argc, char** argv)
 	}
 
 	//load resources
-	if (!dfclone::Resources::init())
+	if (!dfclone::Resources::init()||!dfclone::Resources::initialized())
 	{
 		return 1;
 	}

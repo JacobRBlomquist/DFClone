@@ -5,12 +5,14 @@
 #include <utility>
 #include <map>
 #include "Resources.h"
+#include "Glyph.h"
 
 namespace dfclone {
 
+	//declarations from static
 	Surfaces *Resources::surfaces;
-	SDL_Surface* img;
 
+	Glyph* Resources::glyphTable;
 	bool Resources::initial = false;
 
 	bool Resources::initialized() {
@@ -35,7 +37,7 @@ namespace dfclone {
 	SDL_Surface * Resources::getSurfaceResource(std::string identifier) {
 		//doesn't exist
 		if (surfaces->find(identifier)==surfaces->end())
-			return NULL;
+			return surfaces->at("NotFound");
 
 		auto it = surfaces->find(identifier);
 
@@ -43,9 +45,17 @@ namespace dfclone {
 	}
 
 	void Resources::shutdown() {
-		SDL_FreeSurface(img);
-		img = NULL;
+		for (auto it = surfaces->begin(); it != surfaces->end(); it++)
+		{
+			SDL_FreeSurface(it->second);
+		}
+
+		delete surfaces;
+
 		IMG_Quit();
+
+		delete glyphTable;
+		printf("Resources destroyed\n");
 	}
 
 	bool Resources::init()
@@ -59,12 +69,30 @@ namespace dfclone {
 
 		surfaces = new Surfaces();
 
-		Resources::img = LoadImage("loaded.png");
+		//Load resources -> images
+		SDL_Surface* img;
+		SDL_Surface* tileset;
+		SDL_Surface* notFound;
+
+
+		img = LoadImage("loaded.png");
 		surfaces->insert(std::pair<std::string, SDL_Surface*>("loaded.png", img));
+		tileset = LoadImage("tileset16x16.png");
+		surfaces->insert(std::pair < std::string, SDL_Surface*>("tileset", tileset));
+		notFound = LoadImage("NotFound.png");
+		surfaces->insert(std::pair < std::string, SDL_Surface*>("NotFound", notFound));
+
+
+		//generate glyph table
+		glyphTable = new Glyph(tileset, 16, 16);
 
 		initial = true;
 		return true;
 	}
 
-	SDL_Surface* Resources::img;
+	Glyph* Resources::GetGlyphTable() {
+		return glyphTable;
+	}
+
+
 }
