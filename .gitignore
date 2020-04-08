@@ -1,3 +1,6 @@
 x64/
 x86/
 .vs/
+DFClone/Debug/
+DFClone/Release/
+DFClone/x64/
