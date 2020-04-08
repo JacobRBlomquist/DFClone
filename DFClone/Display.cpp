@@ -10,7 +10,7 @@ namespace dfclone {
 
 	void Display::render() {
 		//Apply the PNG image
-		SDL_BlitSurface(Resources::getSurfaceResource("loaded.png"), NULL, mWindowSurface, NULL);
+		SDL_BlitSurface(Resources::getSurfaceResource("tileset"), NULL, mWindowSurface, NULL);
 
 		//Update the surface
 		SDL_UpdateWindowSurface(mWindow);
@@ -37,7 +37,7 @@ namespace dfclone {
 
 
 	Display::~Display() {
-		std::cout << "DESTROYING DISPLAY";
+		std::cout << "Display Destroyed\n";
 
 	}
 }

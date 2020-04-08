@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DISPLAY_H
+#define DISPLAY_H
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -24,3 +25,5 @@ namespace dfclone {
 
 	};
 }
+
+#endif

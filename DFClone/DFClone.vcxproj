@@ -219,11 +219,13 @@ xcopy /Y  /E "$(SolutionDir)inject\common\*" "$(SolutionDir)$(Platform)\$(Config
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Glyph.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h" />
+    <ClInclude Include="Glyph.h" />
     <ClInclude Include="Resources.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
