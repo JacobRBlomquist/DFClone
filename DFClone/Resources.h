@@ -27,8 +27,7 @@ namespace dfclone {
 		static Glyph* GetGlyphTable();
 
 	private:
-		static SDL_Surface* img;
-		static SDL_Surface* tileset;
+		
 		static Glyph* glyphTable;
 
 		static SDL_Surface* LoadImage(std::string path);

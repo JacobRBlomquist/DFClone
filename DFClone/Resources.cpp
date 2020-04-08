@@ -11,8 +11,7 @@ namespace dfclone {
 
 	//declarations from static
 	Surfaces *Resources::surfaces;
-	SDL_Surface* Resources::img;
-	SDL_Surface* Resources::tileset;
+
 	Glyph* Resources::glyphTable;
 	bool Resources::initial = false;
 
@@ -38,7 +37,7 @@ namespace dfclone {
 	SDL_Surface * Resources::getSurfaceResource(std::string identifier) {
 		//doesn't exist
 		if (surfaces->find(identifier)==surfaces->end())
-			return NULL;
+			return surfaces->at("NotFound");
 
 		auto it = surfaces->find(identifier);
 
@@ -71,10 +70,19 @@ namespace dfclone {
 		surfaces = new Surfaces();
 
 		//Load resources -> images
-		Resources::img = LoadImage("loaded.png");
+		SDL_Surface* img;
+		SDL_Surface* tileset;
+		SDL_Surface* notFound;
+
+
+		img = LoadImage("loaded.png");
 		surfaces->insert(std::pair<std::string, SDL_Surface*>("loaded.png", img));
-		Resources::tileset = LoadImage("tileset16x16.png");
+		tileset = LoadImage("tileset16x16.png");
 		surfaces->insert(std::pair < std::string, SDL_Surface*>("tileset", tileset));
+		notFound = LoadImage("NotFound.png");
+		surfaces->insert(std::pair < std::string, SDL_Surface*>("NotFound", notFound));
+
+
 		//generate glyph table
 		glyphTable = new Glyph(tileset, 16, 16);
 
