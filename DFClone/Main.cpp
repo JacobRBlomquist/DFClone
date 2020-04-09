@@ -61,8 +61,19 @@ int main(int argc, char** argv)
 				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
 					printf("Resizing window: %d X %d\n",e.window.data1,e.window.data2);
-					
 				}
+			}
+			else if (e.type == SDL_DROPFILE)
+			{
+				char* droppedFileDir = e.drop.file;
+
+				SDL_ShowSimpleMessageBox(
+					SDL_MESSAGEBOX_INFORMATION,
+					"File dropped on window",
+					droppedFileDir,
+					SDL_GetWindowFromID(e.drop.windowID)
+					);
+
 			}
 			
 		}
