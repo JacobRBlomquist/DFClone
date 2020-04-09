@@ -12,7 +12,7 @@ namespace dfclone {
 		//Apply the PNG image
 		SDL_BlitSurface(Resources::getSurfaceResource("tileset"), NULL, mWindowSurface, NULL);
 
-		//Update the surface
+		//Update the surfacez,zp
 		SDL_UpdateWindowSurface(mWindow);
 	}
 	bool Display::init(std::string title) {
