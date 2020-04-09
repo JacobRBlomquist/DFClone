@@ -56,11 +56,19 @@ int main(int argc, char** argv)
 			{
 				quit = true;
 			}
+			else if (e.type == SDL_WINDOWEVENT)
+			{
+				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
+					printf("Resizing window: %d X %d\n",e.window.data1,e.window.data2);
+					
+				}
+			}
+			
 		}
 
 		mainDisplay->render();
 
-		
 	}
 	delete mainDisplay;
 	dfclone::Resources::shutdown();

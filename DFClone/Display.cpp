@@ -11,21 +11,17 @@ namespace dfclone {
 	void Display::render() {
 		//SDL_RenderClear(mRenderer);
 		//Apply the PNG image
-		//SDL_BlitSurface(Resources::getSurfaceResource("tileset"), NULL, mWindowSurface, NULL);
 		SDL_Texture* surfTex = Resources::getTextureResource("tileset");
 
-
-
-
-
-		SDL_RenderCopy(mRenderer, surfTex, NULL, NULL);
+		
+		SDL_RenderCopy(mRenderer, surfTex, NULL,NULL);
 		SDL_RenderPresent(mRenderer);
 
-		//Update the surfacez,zp
+		//Update the surface
 		SDL_UpdateWindowSurface(mWindow);
 	}
 	bool Display::init(std::string title) {
-		mWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+		mWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE);
 		if (mWindow == NULL)
 		{
 			printf("Window could not be created. SDL Error: %s\n", SDL_GetError());
