@@ -27,14 +27,17 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
+	dfclone::Display* mainDisplay = new dfclone::Display();
+	if (!mainDisplay->init("DF Clone"))return 1;
+	SDL_Renderer* mainRenderer = mainDisplay->getRenderer();
+
+
 	//load resources
-	if (!dfclone::Resources::init()||!dfclone::Resources::initialized())
+	if (!dfclone::Resources::init(mainRenderer)||!dfclone::Resources::initialized())
 	{
 		return 1;
 	}
 
-	dfclone::Display* mainDisplay = new dfclone::Display();
-	if (!mainDisplay->init("DF Clone"))return 1;
 
 	//Main loop flag
 	bool quit = false;

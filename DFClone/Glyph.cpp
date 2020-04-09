@@ -6,10 +6,9 @@
 
 #include "Glyph.h"
 namespace dfclone {
-	Glyph::Glyph(SDL_Surface* tileset, int widthTiles, int heightTiles)
+	Glyph::Glyph(SDL_Texture* tileset, int widthTiles, int heightTiles)
 	{
-		SDL_Surface* tilesetRGB;
-		tilesetRGB = SDL_ConvertSurfaceFormat(tileset, SDL_PIXELFORMAT_ARGB8888, 0);
+		
 
 		gWidth = widthTiles;
 		gHeight = heightTiles;
@@ -18,42 +17,41 @@ namespace dfclone {
 		colorCache = new std::map<unsigned long long, unsigned int*>();
 
 		//TODO load glyphs
-		int tilesetWidth = tilesetRGB->w / widthTiles;
-		int tilesetHeight = tilesetRGB->h / widthTiles;
-		unsigned char index = 0;
+		//int tilesetWidth = tilesetRGB->w / widthTiles;
+		//int tilesetHeight = tilesetRGB->h / widthTiles;
+		//unsigned char index = 0;
 
-		for (int yTile = 0; yTile < tilesetHeight; yTile++)
-		{
-			for (int xTile = 0; xTile < tilesetWidth; xTile++)
-			{
+		//for (int yTile = 0; yTile < tilesetHeight; yTile++)
+		//{
+		//	for (int xTile = 0; xTile < tilesetWidth; xTile++)
+		//	{
 
-				unsigned int* currentGlyph = new unsigned int[widthTiles * heightTiles];
+		//		unsigned int* currentGlyph = new unsigned int[widthTiles * heightTiles];
 
 
-				for (int yPixel = 0; yPixel < heightTiles; yPixel++)
-				{
-					for (int xPixel = 0; xPixel < widthTiles; xPixel++)
-					{
-						currentGlyph[xPixel + yPixel * widthTiles] = ((unsigned int*)tilesetRGB->pixels)[(xTile * widthTiles + xPixel) + (yTile * heightTiles + yPixel) * tilesetWidth];
-					}
-				}
-				//todo fix pixel reading
-				for (int y = 0; y < 16; y++)
-				{
-					for (int x = 0; x < 16; x++)
-					{
-						printf("%4X ", currentGlyph[x + y * 16]);
-					}
-					printf("\n");
-				}
+		//		for (int yPixel = 0; yPixel < heightTiles; yPixel++)
+		//		{
+		//			for (int xPixel = 0; xPixel < widthTiles; xPixel++)
+		//			{
+		//				currentGlyph[xPixel + yPixel * widthTiles] = ((unsigned int*)tilesetRGB->pixels)[(xTile * widthTiles + xPixel) + (yTile * heightTiles + yPixel) * tilesetWidth];
+		//			}
+		//		}
+		//		//todo fix pixel reading
+		//		for (int y = 0; y < 16; y++)
+		//		{
+		//			for (int x = 0; x < 16; x++)
+		//			{
+		//				printf("%4X ", currentGlyph[x + y * 16]);
+		//			}
+		//			printf("\n");
+		//		}
 
-				glyphs->insert(std::pair<unsigned char, unsigned int*>(index, currentGlyph));
+		//		glyphs->insert(std::pair<unsigned char, unsigned int*>(index, currentGlyph));
 
-				index++;
-			}
-		}
+		//		index++;
+		//	}
+		//}
 
-		SDL_FreeSurface(tilesetRGB);
 
 	}
 	Glyph::~Glyph() {

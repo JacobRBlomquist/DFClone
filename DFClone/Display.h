@@ -16,12 +16,13 @@ namespace dfclone {
 
 		~Display();
 
+		SDL_Renderer* getRenderer();
 
 		SDL_Window* mWindow;
 
 	private:
 
-		SDL_Surface* mWindowSurface;
+		SDL_Renderer* mRenderer;
 
 	};
 }

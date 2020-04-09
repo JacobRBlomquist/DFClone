@@ -10,8 +10,8 @@
 namespace dfclone {
 
 	//declarations from static
-	Surfaces *Resources::surfaces;
-
+	 Textures* Resources::textures;
+	 SDL_Renderer* Resources::renderer;
 	Glyph* Resources::glyphTable;
 	bool Resources::initial = false;
 
@@ -34,23 +34,24 @@ namespace dfclone {
 
 	}
 
-	SDL_Surface * Resources::getSurfaceResource(std::string identifier) {
+	 SDL_Texture* Resources::getTextureResource(std::string identifier)
+	 {
 		//doesn't exist
-		if (surfaces->find(identifier)==surfaces->end())
-			return surfaces->at("NotFound");
+		if (textures->find(identifier)== textures->end())
+			return textures->at("NotFound");
 
-		auto it = surfaces->find(identifier);
+		auto it = textures->find(identifier);
 
 		return it->second;
 	}
 
 	void Resources::shutdown() {
-		for (auto it = surfaces->begin(); it != surfaces->end(); it++)
+		for (auto it = textures->begin(); it != textures->end(); it++)
 		{
-			SDL_FreeSurface(it->second);
+			SDL_DestroyTexture(it->second);
 		}
 
-		delete surfaces;
+		delete textures;
 
 		IMG_Quit();
 
@@ -58,8 +59,30 @@ namespace dfclone {
 		printf("Resources destroyed\n");
 	}
 
-	bool Resources::init()
+	SDL_Texture* Resources::CreateTexture(SDL_Renderer* p_renderer, SDL_Surface* p_surface)
 	{
+		SDL_Surface * argb = SDL_ConvertSurfaceFormat(p_surface, SDL_PIXELFORMAT_ARGB8888, NULL);
+
+		if (!argb)
+		{
+			printf("Error creating ARGB surface: %s\n", SDL_GetError());
+		}
+
+		SDL_Texture* ret = SDL_CreateTextureFromSurface(p_renderer, argb);
+
+		if (!ret)
+		{
+			printf("Error creating Texture from ARGB Surface: %s\n", SDL_GetError());
+		}
+
+
+		SDL_FreeSurface(argb);
+		return ret;
+	}
+
+	bool Resources::init(SDL_Renderer* p_renderer)
+	{
+		Resources::renderer = p_renderer;
 		int imgFlags = IMG_INIT_PNG;
 		if (!(IMG_Init(imgFlags) & imgFlags))
 		{
@@ -67,23 +90,22 @@ namespace dfclone {
 			return false;
 		}
 
-		surfaces = new Surfaces();
+		textures = new Textures();
 
 		//Load resources -> images
-		SDL_Surface* img;
-		SDL_Surface* tileset;
-		SDL_Surface* notFound;
+	
+		SDL_Texture* img =Resources::CreateTexture(p_renderer, LoadImage("loaded.png"));
+		textures->insert(std::pair<std::string, SDL_Texture*>("loaded.png", img));
 
+		SDL_Texture* tileset = Resources::CreateTexture(p_renderer, LoadImage("tileset16x16.png"));
+		textures->insert(std::pair < std::string, SDL_Texture*>("tileset", tileset));
 
-		img = LoadImage("loaded.png");
-		surfaces->insert(std::pair<std::string, SDL_Surface*>("loaded.png", img));
-		tileset = LoadImage("tileset16x16.png");
-		surfaces->insert(std::pair < std::string, SDL_Surface*>("tileset", tileset));
-		notFound = LoadImage("NotFound.png");
-		surfaces->insert(std::pair < std::string, SDL_Surface*>("NotFound", notFound));
+		SDL_Texture* notFound = Resources::CreateTexture(p_renderer, LoadImage("NotFound.png"));
+		textures->insert(std::pair < std::string, SDL_Texture*>("NotFound", notFound));
 
 
 		//generate glyph table
+		//TODO
 		glyphTable = new Glyph(tileset, 16, 16);
 
 		initial = true;

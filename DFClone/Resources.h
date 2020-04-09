@@ -11,28 +11,32 @@
 
 
 namespace dfclone {
-	typedef std::map<std::string, SDL_Surface*> Surfaces;
+	typedef std::map<std::string, SDL_Texture*> Textures;
 
 	class Resources
 	{
 	public:
 		static bool initialized();
 
-		static bool init();
+		static bool init(SDL_Renderer * p_renderer);
 
 		static void shutdown();
 
-		static  SDL_Surface* getSurfaceResource(std::string identifier);
+		static  SDL_Texture* getTextureResource(std::string identifier);
 
 		static Glyph* GetGlyphTable();
 
 	private:
 		
+		static SDL_Texture* CreateTexture(SDL_Renderer* p_renderer, SDL_Surface* p_surface);
+
 		static Glyph* glyphTable;
 
 		static SDL_Surface* LoadImage(std::string path);
 
-		static Surfaces* surfaces;
+		static Textures* textures;
+
+		static SDL_Renderer* renderer;
 
 		static bool initial;
 	};

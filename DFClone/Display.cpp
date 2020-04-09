@@ -9,8 +9,17 @@
 namespace dfclone {
 
 	void Display::render() {
+		//SDL_RenderClear(mRenderer);
 		//Apply the PNG image
-		SDL_BlitSurface(Resources::getSurfaceResource("tileset"), NULL, mWindowSurface, NULL);
+		//SDL_BlitSurface(Resources::getSurfaceResource("tileset"), NULL, mWindowSurface, NULL);
+		SDL_Texture* surfTex = Resources::getTextureResource("tileset");
+
+
+
+
+
+		SDL_RenderCopy(mRenderer, surfTex, NULL, NULL);
+		SDL_RenderPresent(mRenderer);
 
 		//Update the surfacez,zp
 		SDL_UpdateWindowSurface(mWindow);
@@ -23,13 +32,26 @@ namespace dfclone {
 			return false;
 		}
 
-		mWindowSurface = SDL_GetWindowSurface(mWindow);
+		mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+
+		SDL_RendererInfo info;
+		SDL_GetRendererInfo(mRenderer, &info);
+
+		printf("Renderer Name: %s\n", info.name);
+		printf("Texture Formats: \n");
+
+		for (int i = 0; i < info.num_texture_formats; i++)
+		{
+			printf("%s\n", SDL_GetPixelFormatName(info.texture_formats[i]));
+		}
+
+		SDL_SetRenderDrawColor(mRenderer, 0x44, 0x44, 0x44, 0xff);
+		//mWindowSurface = SDL_GetWindowSurface(mWindow);
 		return true;
 	}
 	Display::Display()
 	{
-		SDL_FreeSurface(mWindowSurface);
-		mWindowSurface = NULL;
+		SDL_DestroyRenderer(mRenderer);
 
 		SDL_DestroyWindow(mWindow);
 		mWindow = NULL;
@@ -39,5 +61,9 @@ namespace dfclone {
 	Display::~Display() {
 		std::cout << "Display Destroyed\n";
 
+	}
+	SDL_Renderer* Display::getRenderer()
+	{
+		return mRenderer;
 	}
 }

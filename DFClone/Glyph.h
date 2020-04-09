@@ -15,7 +15,7 @@ namespace dfclone {
 			- widthTiles - the width of a single tile (i.e. 16px etc.)
 			- heightTiles - the height of a single tile
 		*/
-		Glyph(SDL_Surface* tileset, int widthTiles, int heightTiles);
+		Glyph(SDL_Texture* tileset, int widthTiles, int heightTiles);
 		~Glyph();
 		/* Get width and height of a single glyph.
 			- w - destination for width
